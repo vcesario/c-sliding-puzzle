@@ -9,6 +9,7 @@ int controlar();
 int achaChar(char *arr,int n,char c);
 char teclaPress();
 void mover(char *arr, int n, char dir, int pos);
+int ganhou(char *arr, int n);
 
 int main(){
     int i;
@@ -20,7 +21,7 @@ int main(){
     do{
         system("cls");
         printar(elements,9);
-    }while(controlar(elements,9));
+    }while(controlar(elements,9) && !ganhou(elements,9));
 
 
     return 0;
@@ -71,6 +72,24 @@ int achaChar(char *arr,int n,char c){
         }
     }
     return -1;
+}
+int ganhou(char *arr, int n){
+    if (achaChar(arr,n,'A') == 0)
+        if (achaChar(arr,n,'B') == 1)
+            if (achaChar(arr,n,'C') == 2)
+                if (achaChar(arr,n,'D') == 3)
+                    if (achaChar(arr,n,'E') == 4)
+                        if (achaChar(arr,n,'F') == 5)
+                            if (achaChar(arr,n,'G') == 6)
+                                if (achaChar(arr,n,'H') == 7) return 1;
+                                else return 0;
+                            else return 0;
+                        else return 0;
+                    else return 0;
+                else return 0;
+            else return 0;
+        else return 0;
+    else return 0;
 }
 int controlar(char *arr, int n){
     char tecla;
