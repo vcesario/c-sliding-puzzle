@@ -50,12 +50,17 @@ void randomizar(char *arr, int n){
 }
 void printar(char *arr, int n){
     int i;
-    for (i = 0;i<n;i++){
-        printf(" %c",arr[i]);
-        if((i+1)%3 == 0 && i>0){
-            printf("\n\n");
-        }
+    printf("\t\t\t\t%c%c%c%c%c%c%c%c%c\n",201,205,205,205,205,205,205,205,187);
+    for (i = 0; i<n;i=i+3){
+        printf("\t\t\t\t%c\t%c\n",186,186);
+        printf("\t\t\t\t%c %c %c %c %c\n",186,arr[i],arr[i+1],arr[i+2],186);
     }
+    printf("\t\t\t\t%c\t%c\n",186,186);
+    printf("\t\t\t\t%c%c%c%c%c%c%c%c%c\n",200,205,205,205,205,205,205,205,188);
+
+    printf("\n\n Welcome to Cesario's Sliding Puzzle! Use the arrow keys to move the letters\n towards the empty space and try to rearrange them into");
+    printf(" ascending order.\n Press [ESC] to leave. Good luck!");
+
     return;
 }
 int achaChar(char *arr,int n,char c){
