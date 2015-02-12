@@ -2,38 +2,37 @@
 #include <stdlib.h>
 #include <time.h>
 
-void tabelaChars();
-void randomizar();
-void printar();
-int controlar();
-int achaChar(char *arr,int n,char c);
-char teclaPress();
-void mover(char *arr, int n, char dir, int pos);
-int ganhou(char *arr, int n);
+#define size 9
+
+void randomize();
+void printGame();
+int moveTiles();
+int charPosition(char *arr,int n,char c);
+char getKey();
+void tileChange(char *arr, int n, char dir, int pos);
+int completed(char *arr, int n);
 
 int main(){
     int i;
-    //char elements[9] = {'A','B','C','D','E','F','G','H',' '};
-    char elements[/*9*/] = "ABCDEFGH ";
+    char elements[] = "ABCDEFGH ";
 
-    randomizar(elements,9);
+    randomize(elements,size);
 
     do{
         system("cls");
-        printar(elements,9);
-    }while(controlar(elements,9) && !ganhou(elements,9));
+        printf("\n\n\n");
+        printGame(elements,size);
+    }while(moveTiles(elements,size) && !completed(elements,size));
+
+    system("cls");
+    printf("\n\n\n");
+    printf(" Wow, you did it! I never solved this game, so I'm not really sure if\n you'll read this message at all. Well, congratulations anyway.\n Thank you for playing!");
 
 
     return 0;
 }
-void tabelaChars(){
-    int i;
-    printf("COD\tCHAR");
-    for (i = 255; i>32; i--){
-        printf("\n%d\t%c",i,i);
-    }
-}
-void randomizar(char *arr, int n){
+
+void randomize(char *arr, int n){
     int i, pos;
     char aux;
 
@@ -49,7 +48,8 @@ void randomizar(char *arr, int n){
 
     return;
 }
-void printar(char *arr, int n){
+
+void printGame(char *arr, int n){
     int i;
     printf("\t\t\t\t%c%c%c%c%c%c%c%c%c\n",201,205,205,205,205,205,205,205,187);
     for (i = 0; i<n;i=i+3){
@@ -58,30 +58,29 @@ void printar(char *arr, int n){
     }
     printf("\t\t\t\t%c\t%c\n",186,186);
     printf("\t\t\t\t%c%c%c%c%c%c%c%c%c\n",200,205,205,205,205,205,205,205,188);
-
     printf("\n\n Welcome to Cesario's Sliding Puzzle! Use the arrow keys to move the letters\n towards the empty space and try to rearrange them into");
     printf(" ascending order.\n Press [ESC] to leave. Good luck!");
 
     return;
 }
-int achaChar(char *arr,int n,char c){
+
+int charPosition(char *arr,int n,char c){
     int i;
-    for (i = n-1;i>=0;i--){
-        if (arr[i] == c){
+    for (i = n-1;i>=0;i--)
+        if (arr[i] == c)
             return i;
-        }
-    }
+
     return -1;
 }
-int ganhou(char *arr, int n){
-    if (achaChar(arr,n,'A') == 0)
-        if (achaChar(arr,n,'B') == 1)
-            if (achaChar(arr,n,'C') == 2)
-                if (achaChar(arr,n,'D') == 3)
-                    if (achaChar(arr,n,'E') == 4)
-                        if (achaChar(arr,n,'F') == 5)
-                            if (achaChar(arr,n,'G') == 6)
-                                if (achaChar(arr,n,'H') == 7) return 1;
+int completed(char *arr, int n){
+    if (charPosition(arr,n,'A') == 0)
+        if (charPosition(arr,n,'B') == 1)
+            if (charPosition(arr,n,'C') == 2)
+                if (charPosition(arr,n,'D') == 3)
+                    if (charPosition(arr,n,'E') == 4)
+                        if (charPosition(arr,n,'F') == 5)
+                            if (charPosition(arr,n,'G') == 6)
+                                if (charPosition(arr,n,'H') == 7) return 1;
                                 else return 0;
                             else return 0;
                         else return 0;
@@ -91,100 +90,91 @@ int ganhou(char *arr, int n){
         else return 0;
     else return 0;
 }
-int controlar(char *arr, int n){
-    char tecla;
+int moveTiles(char *arr, int n){
+    char keyPressed;
     int pos;
 
-    pos = achaChar(arr,n,' ');
+    pos = charPosition(arr,n,' ');
 
     switch(pos){
     case 0:
-        tecla = teclaPress();
-        if (tecla == 'U' || tecla == 'L'){
-            mover(arr,n,tecla,pos);
+        keyPressed = getKey();
+        if (keyPressed == 'U' || keyPressed == 'L'){
+            tileChange(arr,n,keyPressed,pos);
         }
-        else if (tecla == 'E'){
-            //SAIR
+        else if (keyPressed == 'E'){
             return 0;
         }
         break;
     case 1:
-        tecla = teclaPress();
-        if (tecla == 'U' || tecla == 'L' || tecla == 'R'){
-            mover(arr,n,tecla,pos);
+        keyPressed = getKey();
+        if (keyPressed == 'U' || keyPressed == 'L' || keyPressed == 'R'){
+            tileChange(arr,n,keyPressed,pos);
         }
-        else if (tecla == 'E'){
-            //SAIR
+        else if (keyPressed == 'E'){
             return 0;
         }
         break;
     case 2:
-        tecla = teclaPress();
-        if (tecla == 'U' || tecla == 'R'){
-            mover(arr,n,tecla,pos);
+        keyPressed = getKey();
+        if (keyPressed == 'U' || keyPressed == 'R'){
+            tileChange(arr,n,keyPressed,pos);
         }
-        else if (tecla == 'E'){
-            //SAIR
+        else if (keyPressed == 'E'){
             return 0;
         }
         break;
     case 3:
-        tecla = teclaPress();
-        if (tecla == 'U' || tecla == 'D' || tecla == 'L'){
-            mover(arr,n,tecla,pos);
+        keyPressed = getKey();
+        if (keyPressed == 'U' || keyPressed == 'D' || keyPressed == 'L'){
+            tileChange(arr,n,keyPressed,pos);
         }
-        else if (tecla == 'E'){
-            //SAIR
+        else if (keyPressed == 'E'){
             return 0;
         }
         break;
     case 4:
-        tecla = teclaPress();
-        if (tecla == 'U' || tecla == 'L' || tecla == 'D' || tecla == 'R'){
-            mover(arr,n,tecla,pos);
+        keyPressed = getKey();
+        if (keyPressed == 'U' || keyPressed == 'L' || keyPressed == 'D' || keyPressed == 'R'){
+            tileChange(arr,n,keyPressed,pos);
         }
-        else if (tecla == 'E'){
-            //SAIR
+        else if (keyPressed == 'E'){
             return 0;
         }
         break;
     case 5:
-        tecla = teclaPress();
-        if (tecla == 'U' || tecla == 'D' || tecla == 'R'){
-            mover(arr,n,tecla,pos);
+        keyPressed = getKey();
+        if (keyPressed == 'U' || keyPressed == 'D' || keyPressed == 'R'){
+            tileChange(arr,n,keyPressed,pos);
         }
-        else if (tecla == 'E'){
-            //SAIR
+        else if (keyPressed == 'E'){
             return 0;
         }
         break;
     case 6:
-        tecla = teclaPress();
-        if (tecla == 'D' || tecla == 'L'){
-            mover(arr,n,tecla,pos);
+        keyPressed = getKey();
+        if (keyPressed == 'D' || keyPressed == 'L'){
+            tileChange(arr,n,keyPressed,pos);
         }
-        else if (tecla == 'E'){
-            //SAIR
+        else if (keyPressed == 'E'){
             return 0;
         }
         break;
     case 7:
-        tecla = teclaPress();
-        if (tecla == 'D' || tecla == 'L' || tecla == 'R'){
-            mover(arr,n,tecla,pos);
+        keyPressed = getKey();
+        if (keyPressed == 'D' || keyPressed == 'L' || keyPressed == 'R'){
+            tileChange(arr,n,keyPressed,pos);
         }
-        else if (tecla == 'E'){
-            //SAIR
+        else if (keyPressed == 'E'){
             return 0;
         }
         break;
     case 8:
-        tecla = teclaPress();
-        if (tecla == 'D' || tecla == 'R'){
-            mover(arr,n,tecla,pos);
+        keyPressed = getKey();
+        if (keyPressed == 'D' || keyPressed == 'R'){
+            tileChange(arr,n,keyPressed,pos);
         }
-        else if (tecla == 'E'){
-            //SAIR
+        else if (keyPressed == 'E'){
             return 0;
         }
         break;
@@ -192,63 +182,57 @@ int controlar(char *arr, int n){
     return 1;
 }
 
-char teclaPress(){
+char getKey(){
     int point;
     char input;
 
     input = getch();
 
     switch(input){
-    // DIRECIONAIS
+    // ARROW KEYS
     case -32:
         input = getch();
         switch (input){
-        //CIMA
+        //UP
         case 72:
             return 'U';
-            //break;
-        //BAIXO
+        //DOWN
         case 80:
             return 'D';
-            //break;
-        //ESQUERDA
+        //LEFT
         case 75:
             return 'L';
-            //break;
-        //DIREITA
+        //RIGHT
         case 77:
             return 'R';
-            //break;
         default:
-            return teclaPress();
-            //break;
+            return getKey();
         }
         break;
     //ESC
     case 27:
         return 'E';
-        //break;
     }
 }
 
-void mover(char *arr, int n, char tecla, int pos){
+void tileChange(char *arr, int n, char arrowKey, int pos){
     char aux;
-    if (tecla == 'U'){
+    if (arrowKey == 'U'){
         aux = arr[pos+3];
         arr[pos+3] = arr[pos];
         arr[pos] = aux;
     }
-    else if (tecla == 'D'){
+    else if (arrowKey == 'D'){
         aux = arr[pos-3];
         arr[pos-3] = arr[pos];
         arr[pos] = aux;
     }
-    else if (tecla == 'L'){
+    else if (arrowKey == 'L'){
         aux = arr[pos+1];
         arr[pos+1] = arr[pos];
         arr[pos] = aux;
     }
-    else if (tecla == 'R'){
+    else if (arrowKey == 'R'){
         aux = arr[pos-1];
         arr[pos-1] = arr[pos];
         arr[pos] = aux;
